@@ -1,0 +1,27 @@
+{% extends 'body.html' %}
+{% load static %}
+
+{% block content %}
+    <h1> &iexcl;Bienvenido al panel central&excl;</h1>
+    <div class="card card-success">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12 col-lg-6 col-xl-4">
+                    <div class="card mb-2 bg-gradient-dark">
+                        <img class="img-fluid" src="{% static 'img/dash3.png' %}" alt="Dist Photo 1">
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-6 col-xl-4">
+                    <div class="card mb-2">
+                        <img class="img-fluid" src="{% static 'img/dash2.jpg' %}" alt="Dist Photo 2">
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-6 col-xl-4">
+                    <div class="card mb-2">
+                        <img class="img-fluid" src="{% static 'img/dash1.jpg' %}" alt="Dist Photo 3">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

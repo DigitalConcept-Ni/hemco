@@ -1,0 +1,40 @@
+{% extends 'list.html' %}
+
+{% block columns %}
+
+    <tr>
+        <th scope="col">Cedula</th>
+        <th scope="col">Primer Nombre</th>
+        <th scope="col">Segundo Nombre</th>
+        <th scope="col">Primer Apellido</th>
+        <th scope="col">Segundo Apellido</th>
+        <th scope="col">Departamento</th>
+        <th scope="col">Contrato</th>
+        <th scope="col">Estado</th>
+        <th scope="col">archivo</th>
+        <th scope="col">Opciones</th>
+    </tr>
+{% endblock %}
+
+{% block rows %}
+    {% for e in object_list %}
+        <tr>
+            <td>{{ e.cedula }}</td>
+            <td>{{ e.primer_nombre }}</td>
+            <td>{{ e.segundo_nombre }}</td>
+            <td>{{ e.apellido_paterno }}</td>
+            <td>{{ e.apellido_materno }}</td>
+            <td>{{ e.departamento }}</td>
+            <td>{{ e.contrato }}</td>
+            <td>{{ e.estado }}</td>
+            <td class="text-center">
+                <a href="/media/{{ e.archivo }}" > {{ e.archivo }}</a>
+            </td>
+            <td>
+                <a href="{% url 'RRHH:expediente_edit' e.id %}" type="button" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                <a href="{% url 'RRHH:expediente_delete' e.id %}" type="button" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+            </td>
+        </tr>
+
+    {% endfor %}
+{% endblock %}

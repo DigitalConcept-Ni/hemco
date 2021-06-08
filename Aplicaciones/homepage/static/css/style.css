@@ -1,0 +1,53 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
+@import url("working.css");
+:root {
+    --da: #041f3a;
+    --ln: #f7931e;
+}
+
+body {
+    position: relative;
+    background: #145a32;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+    font-family: "Open Sans", sans-serif;
+}
+
+.container {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* h2 {
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    color: white;
+    text-align: center;
+    line-height: 1em;
+    font-size: 5rem;
+    z-index: 9999;
+} */
+
+.block {
+    position: absolute;
+    height: 200px;
+    width: 150px;
+    /* background: #ab0707; */
+    box-shadow: 10px 15px 20px 7px rgba(0, 0, 0, 0.3);
+    transition: ease 2s;
+    border-radius: 5px;
+}
+
+@media (max-width: 400px) {
+    .block {
+        height: 100px;
+        width: 80px;
+    }
+}

@@ -1,0 +1,27 @@
+{% extends 'list.html' %}
+
+{% block columns %}
+
+    <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Seccion</th>
+        <th scope="col">Documento</th>
+        <th scope="col">opciones</th>
+    </tr>
+{% endblock %}
+
+{% block rows %}
+    {% for r in registros %}
+        <tr>
+            <td>{{ r.id }}</td>
+            <td>{{ r.seccion }}</td>
+            <td>{{ r.documento }}</td>
+            <td>
+                <button type="button" class="btn btn-primary"><i class="fas fa-edit"></i></button>
+                <button type="button" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+            </td>
+        </tr>
+
+    {% endfor %}
+
+{% endblock %}

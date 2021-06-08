@@ -1,0 +1,27 @@
+{% extends 'list.html' %}
+
+{% block columns %}
+
+    <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Documentos por seccion</th>
+        <th scope="col">Opciones</th>
+    </tr>
+{% endblock %}
+
+{% block rows %}
+    {% for s in secciones %}
+        <tr>
+            <td>{{ s.id }}</td>
+            <td>{{ s.nombre }}</td>
+            <td>{{ s.tipo_documento }}</td>
+            <td>
+                <button type="button" class="btn btn-primary"><i class="fas fa-edit"></i></button>
+                <button type="button" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+            </td>
+        </tr>
+
+    {% endfor %}
+
+{% endblock %}

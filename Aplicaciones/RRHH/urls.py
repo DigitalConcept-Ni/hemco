@@ -1,6 +1,7 @@
 from django.urls import path
 
 from Aplicaciones.RRHH.views.masivo.view import FileFieldFormView
+from Aplicaciones.RRHH.views.quey.view import Queryview
 from Aplicaciones.RRHH.views.secciones.view import secciones_list
 from Aplicaciones.RRHH.views.documentos.view import *
 from Aplicaciones.RRHH.views.registros.view import registro_list
@@ -8,6 +9,8 @@ from Aplicaciones.RRHH.views.expedientes.view import *
 from Aplicaciones.RRHH.views.indexado.view import *
 
 app_name = 'RRHH'
+
+
 
 urlpatterns = [
     # urls Secciones
@@ -30,6 +33,10 @@ urlpatterns = [
     path('Indexacion/edit/<int:pk>/', IndexUpdateview.as_view(), name='index_edit'),
     path('Indexacion/delete/<int:pk>/', IndexDeleteview.as_view(), name='index_delete'),
     #PRUEBA DE MASIVO
-    path('masivo/', FileFieldFormView.as_view()),
+    path('masivo/', FileFieldFormView.as_view(), name = 'masivo_add'),
+
+    # QUERY
+    path('query/', Queryview.as_view(), name = 'add_query'),
+
 
 ]

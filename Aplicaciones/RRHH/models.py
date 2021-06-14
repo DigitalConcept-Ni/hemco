@@ -2,6 +2,8 @@ from django.db import models
 
 
 # Create your models here.
+from django.forms import model_to_dict
+
 
 class doc(models.Model):
     nombre = models.CharField(max_length=12)
@@ -53,6 +55,10 @@ class Expedientes(models.Model):
         return '{0} {1} {2} {3}'.format(self.primer_nombre, self.segundo_nombre, self.apellido_paterno,
                                         self.apellido_materno)
 
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['archivo'] = format(self.archivo)
+        return item
 
 class Indexaciones(models.Model):
     cedula = models.ForeignKey(
@@ -71,3 +77,8 @@ class Indexaciones(models.Model):
         if self.fecha_documento:
             return '{}'.format(self.fecha_documento)
         return '{}'.format('No requerido')
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['archivo'] = format(self.archivo)
+        return item

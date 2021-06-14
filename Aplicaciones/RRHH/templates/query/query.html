@@ -1,0 +1,187 @@
+{% extends 'body.html' %}
+
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'lib/datatables-1.10.20/css/dataTables.bootstrap4.min.css' %}"/>
+    <link rel="stylesheet"
+          href="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/css/responsive.bootstrap4.min.css' %}"/>
+    <script src="{% static 'lib/datatables-1.10.20/js/jquery.dataTables.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/responsive.bootstrap4.min.js' %}"></script>
+
+{% endblock %}
+
+{% block content %}
+
+    <form method="post">
+
+        <div class="card card-default">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <P><i class="fab fa-slack"></i> {{ title }}</P>
+                </h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+
+                {#                {% if form.errors %}#}
+                {#                    <div class="alert alert-success alert-dismissible">#}
+                {#                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>#}
+                {#                        <h5><i class="icon fas fa-ban"></i> Ha ocurrido un error al guardar el registro</h5>#}
+                {#                        <ul>#}
+                {#                            {% for field in form %}#}
+                {#                                {% for error in field.errors %}#}
+                {#                                    <li>{{ error }} [ {{ field.label }} ]</li>#}
+                {#                                {% endfor %}#}
+                {#                            {% endfor %}#}
+                {##}
+                {#                            {% for error in form.non_field_errors %}#}
+                {#                                <li>{{ error }}</li>#}
+                {#                            {% endfor %}#}
+                {##}
+                {#                        </ul>#}
+                {#                    </div>#}
+                {##}
+                {#                {% endif %}#}
+
+                <div class="form-group">
+                    <label> Colaborador: </label>
+                    {{ form.Cedula }}
+                </div>
+                <div class="form-group">
+                    <label> Seccion: </label>
+                    {{ form.Secciones }}
+                </div>
+            </div>
+            <!-- /.card-body -->
+
+            <div class="card-footer">
+                {#                <a href="{{ create_url }}" type="button" id="btn_consulta" class="btn btn-primary">#}
+                {#                    <i class="fas fa-search"></i> Consultar#}
+                {#                </a>#}
+
+                <button type="submit" class="btn btn-success"><i class="fas fa-save"></i>
+                    Consultar
+                </button>
+                <a href="{{ list_url }}" class="btn btn-danger"><i class="fas fa-ban"></i> Cancelar</a>
+            </div>
+        </div>
+
+    </form>
+
+{% endblock %}
+
+{% block js %}
+
+    <!-- Modal -->
+    <div class="modal fade" id="modalInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table  table-bordered" id="tableInfoIndexado">
+                        <thead>
+                        <tr>
+                            <th scope="col">Colaborador</th>
+                            <th scope="col">Seccion</th>
+                            <th scope="col">Documento</th>
+                            <th scope="col">Fecha Documento</th>
+                            <th scope="col">File</th>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+
+        /*$('#btn_consulta').on('click', function () {
+        //var item = $("option").attr("value");
+        $.ajax({
+            url: '{% url 'RRHH:add_query' %}',
+    type: 'POST',
+    data: {id: {{ form.Cedula}}},
+    dataType: 'json'
+}).done(function (data) {
+    console.log(data);
+}).fail(function (data) {
+    alert('la cagastes');
+}).always(function (data) {
+    alert("Tarea terminada");
+})
+});*/
+
+        $(function () {
+            $('form').on('submit', function (e) {
+                e.preventDefault();
+                var parameter = $(this).serializeArray();
+                console.log(parameter);
+
+                $('#tableInfoIndexado').DataTable({
+                    responsive: true,
+                    autoWidth: false,
+                    destroy: true,
+                    deferRender: true,
+                    ajax: {
+                        url: window.location.pathname,
+                        type: 'POST',
+                        data: parameter,
+                        dataSrc: ""
+                    },
+                    columns: [
+                        {"data": "cedula"},
+                        {"data": "seccion"},
+                        {"data": "documento"},
+                        {"data": "fecha_documento"},
+                        {"data": "archivo"},
+                    ],
+                    columnDefs: [
+                        {
+                            targets: [-5],
+                            class: 'text-center',
+                            //orderable: false,
+                            render: function (data, type, row) {
+                                return data;
+                            }
+                        },
+                        {
+                            targets: [-1],
+                            class: 'text-center',
+                            orderable: false,
+                            render: function (data, type, row) {
+                                var buttons = '<a href="/media/' + data + '" >' + data + '</a> ';
+                                return buttons;
+                            }
+                        },
+                    ],
+                    initComplete: function (settings, json) {
+
+                    }
+                });
+                $('#modalInfo').modal('show');
+
+            });
+
+        });
+
+
+    </script>
+{% endblock %}

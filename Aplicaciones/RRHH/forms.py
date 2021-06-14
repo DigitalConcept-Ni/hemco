@@ -1,6 +1,6 @@
 from django.forms import *
 from django import forms
-from Aplicaciones.RRHH.models import Documentos, Indexaciones, Expedientes
+from Aplicaciones.RRHH.models import Documentos, Indexaciones, Expedientes, Secciones
 
 
 class DocumentosForms(ModelForm):
@@ -45,19 +45,16 @@ class ExpedienteForm(ModelForm):
         }
 
 
-# class ProductForm(forms.ModelForm):
-#     class Meta:
-#         model = Indexaciones
-#         exclude = [id, ]
-#
-#     def clean(self):
-#         archivo = self.cleaned_data.get('archivo')
-#         if archivo == None:
-#             raise forms.ValidationError("Product offer price cannot be greater than Product MRP.")
-#         return self.cleaned_data
-
-
 class FileFieldForm(forms.Form):
+    pdf = forms.FileField(widget=forms.ClearableFileInput(
+        attrs={'multiple': True,
+               'class': 'form-control',
+               }))
+    # file_field = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
 
-    pdf = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
-    #file_field = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+
+class query(Form):
+    Cedula = ModelChoiceField(queryset=Expedientes.objects.all(), widget=Select(
+        attrs={'class': 'form-control'}))
+    Secciones = ModelChoiceField(queryset=Secciones.objects.all(), widget=Select(
+        attrs={'class': 'form-control'}))

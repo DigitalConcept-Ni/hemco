@@ -34,7 +34,7 @@ class FileFieldFormView(FormView):
         print('problemas: ',result.has_errors())
         if not result.has_errors():
             persona_resource.import_data(dataset, dry_run=False)  # Actually import now
-        return render(request, 'masivo/upload.html')
+        return render(request, 'expedientes/list.html')
 
         #     return self.form_valid(form)
         # else:

@@ -57,20 +57,20 @@
             })
         })
 
-        {#$('#btn_registro').on('click', function () {#}
-        {#    $.ajax({#}
-        {#        url:'{% url 'RRHH:documento_list' %}',#}
-        {#        type: 'GET',#}
-        {#        data: {id:20},#}
-        {#        dataType: 'json'#}
-        {#    }).done(function (data){#}
-        {#        console.log(data);#}
-        {#    }).fail(function (data){#}
-        {#        alert('la cagastes');#}
-        {#    }).always(function (data){#}
-        {#        alert("Tarea terminada");#}
-        {#    })#}
-        {#});#}
+        $('#btn_registro').on('click', function () {
+            $.ajax({
+                url:'{% url 'RRHH:expediente_list' %}',
+                type: 'POST',
+                data: {id:20},
+                dataType: 'json'
+            }).done(function (data){
+                console.log(data);
+            }).fail(function (data){
+                alert('la cagastes');
+            }).always(function (data){
+                alert("Tarea terminada");
+            })
+        });
 
 
     </script>

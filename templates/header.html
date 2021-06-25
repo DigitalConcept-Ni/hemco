@@ -112,11 +112,19 @@
                     </ul>
                 </li>
 
-                <li class="nav-item">
-                    <a href="{% url 'RRHH:masivo_add' %}" class="nav-link">Importacion masiva</a>
-                </li>
 
-                 <li class="nav-item">
+                <!-- Item Importaciones masivas-->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        Importacion Masiva
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{% url 'RRHH:expedientes_masivo' %}">Expedientes</a>
+                        <a class="dropdown-item" href="#">Actualizacion</a>
+                    </div>
+
+                <li class="nav-item">
                     <a href="{% url 'RRHH:add_query' %}" class="nav-link">Consultas</a>
                 </li>
             </ul>

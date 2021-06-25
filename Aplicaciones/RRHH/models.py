@@ -1,13 +1,16 @@
 from django.db import models
-
-
-# Create your models here.
 from django.forms import model_to_dict
+
+from administracion_rrhh import settings
 
 
 class doc(models.Model):
     nombre = models.CharField(max_length=12)
     archivo = models.FileField(upload_to='pdf/%Y/%m/%d', null=True, blank=True)
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
 
 
 class Secciones(models.Model):
@@ -15,7 +18,11 @@ class Secciones(models.Model):
     tipo_documento = models.CharField(max_length=30)
 
     def __str__(self):
-        return '{0}'.format(self.nombre)
+        return self.nombre
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
 
 
 class Documentos(models.Model):
@@ -23,6 +30,10 @@ class Documentos(models.Model):
 
     def __str__(self):
         return '{0}'.format(self.nombre)
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
 
 
 class Registros(models.Model):
@@ -33,6 +44,12 @@ class Registros(models.Model):
 
     def __str__(self):
         return '{0} {1}'.format(self.seccion, self.documento)
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['seccion'] = self.seccion.toJSON()
+        item['documento'] = self.documento.toJSON()
+        return item
 
 
 class Expedientes(models.Model):
@@ -52,13 +69,14 @@ class Expedientes(models.Model):
     archivo = models.FileField(upload_to='pdf/%Y/%m/%d', null=True, blank=True)
 
     def __str__(self):
-        return '{0} {1} {2} {3}'.format(self.primer_nombre, self.segundo_nombre, self.apellido_paterno,
-                                        self.apellido_materno)
+        nombre_completo = self.primer_nombre + ' ' + self.segundo_nombre + ' ' + self.apellido_paterno + ' ' + self.apellido_materno
+        return '{}'.format(nombre_completo)
 
     def toJSON(self):
         item = model_to_dict(self)
         item['archivo'] = format(self.archivo)
         return item
+
 
 class Indexaciones(models.Model):
     cedula = models.ForeignKey(
@@ -71,14 +89,22 @@ class Indexaciones(models.Model):
     archivo = models.FileField(upload_to='pdf/%Y/%m/%d', null=True, blank=True)
 
     def __str__(self):
-        return '{0} - {1} -  {2} - {3}'.format(self.cedula, self.seccion, self.documento, self.archivo)
+        return '{0} {1} {2}'.format(self.cedula, self.seccion, self.documento)
 
     def get_fecha(self):
         if self.fecha_documento:
             return '{}'.format(self.fecha_documento)
         return '{}'.format('No requerido')
 
+    def get_archivo(self):
+        if self.archivo:
+            return '{}{}'.format(settings.MEDIA_URL, self.archivo)
+        return ''
+
     def toJSON(self):
         item = model_to_dict(self)
+        item['cedula'] = self.cedula.toJSON()
+        item['seccion'] = self.seccion.toJSON()
+        item['documento'] = self.documento.toJSON()
         item['archivo'] = format(self.archivo)
         return item

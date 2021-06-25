@@ -9,9 +9,9 @@ from Aplicaciones.RRHH.forms import query
 from Aplicaciones.RRHH.models import Expedientes, Indexaciones
 
 
-class Queryview(TemplateView):
+class Queryview(FormView):
     template_name = 'query/query.html'
-    # form_class = query
+    form_class = query
 
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
@@ -20,11 +20,11 @@ class Queryview(TemplateView):
     def post(self, request, *args, **kwargs):
         # form_class = self.get_form_class()
         # files = request.POST['Cedula']
-        data = {}
+        # data = {}
         try:
-            data = []
             result = request.POST
             print(result)
+            data = []
             list = result.values()
             cont = 0
             for i in list:
@@ -38,7 +38,7 @@ class Queryview(TemplateView):
             # data = Expedientes.objects.get(pk=request.POST['Cedula']).toJSON()
             for n in Indexaciones.objects.filter(Q(cedula_id=cedula) & Q(seccion_id=seccion)):
                 data.append(n.toJSON())
-            # print(data)
+            print(data)
         except Exception as e:
             data['error'] = str(e)
         return JsonResponse(data, safe=False)
@@ -46,5 +46,5 @@ class Queryview(TemplateView):
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         data['title'] = 'Consulta de Expedientes'
-        data['form'] = query()
+        # data['form'] = query()
         return data

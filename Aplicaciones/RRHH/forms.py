@@ -50,6 +50,7 @@ class FileFieldForm(forms.Form):
         attrs={'multiple': True,
                'class': 'form-control',
                }))
+
     # file_field = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
 
 
@@ -58,3 +59,10 @@ class query(Form):
         attrs={'class': 'form-control'}))
     Secciones = ModelChoiceField(queryset=Secciones.objects.all(), widget=Select(
         attrs={'class': 'form-control'}))
+
+
+class MasivoForm(Form):
+    Secciones = ModelChoiceField(queryset=Secciones.objects.all(), widget=Select(
+        attrs={'class': 'form-control select2'}))
+    Documentos = ModelChoiceField(queryset=Documentos.objects.none(), widget=Select(
+        attrs={'class': 'form-control select2'}))

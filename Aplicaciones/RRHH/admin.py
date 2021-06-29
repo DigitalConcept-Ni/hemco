@@ -4,7 +4,6 @@ from Aplicaciones.RRHH.models import *
 # Register your models here.
 admin.site.register(Secciones)
 admin.site.register(Documentos)
-admin.site.register(Registros)
 admin.site.register(Expedientes)
 admin.site.register(Indexaciones)
 

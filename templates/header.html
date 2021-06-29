@@ -59,23 +59,6 @@
                         </li>
                         <!-- End Level two Documentos-->
 
-                        <!-- Level two dropdown Registros-->
-                        <li class="dropdown-submenu dropdown-hover">
-                            <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
-                               aria-expanded="false" class="dropdown-item dropdown-toggle">Registros</a>
-                            <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow" style="">
-                                <li>
-                                    <a tabindex="-1" href="{% url 'RRHH:registro_list' %}" class="dropdown-item">
-                                        <i class="fas fa-list-alt"></i> Listado
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="dropdown-item"><i class="fas fa-plus"></i> Agregar</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <!-- End Level two Registros-->
-
                         <!-- Level two dropdown Expedidentes-->
                         <li class="dropdown-submenu dropdown-hover">
                             <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
@@ -121,7 +104,7 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <a class="dropdown-item" href="{% url 'RRHH:expedientes_masivo' %}">Expedientes</a>
-                        <a class="dropdown-item" href="#">Actualizacion</a>
+                        <a class="dropdown-item" href="{% url 'RRHH:actualizacion_masivo' %}">Actualizacion</a>
                     </div>
 
                 <li class="nav-item">

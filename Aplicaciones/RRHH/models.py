@@ -4,18 +4,27 @@ from django.forms import model_to_dict
 from administracion_rrhh import settings
 
 
-class doc(models.Model):
+class Secciones(models.Model):
     nombre = models.CharField(max_length=12)
-    archivo = models.FileField(upload_to='pdf/%Y/%m/%d', null=True, blank=True)
+    tipo_documento = models.CharField(max_length=30)
+
+    def __str__(self):
+        nCompleto = self.nombre + ' -- ' + self.tipo_documento
+        return nCompleto
 
     def toJSON(self):
         item = model_to_dict(self)
         return item
 
+    def get_id(self):
+        item = format(self.id)
+        return item
 
-class Secciones(models.Model):
-    nombre = models.CharField(max_length=12)
-    tipo_documento = models.CharField(max_length=30)
+
+class Documentos(models.Model):
+    nombre = models.CharField(max_length=40, verbose_name='Nombre Documento', unique=True)
+    seccion = models.ForeignKey(
+        Secciones, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.nombre
@@ -24,31 +33,8 @@ class Secciones(models.Model):
         item = model_to_dict(self)
         return item
 
-
-class Documentos(models.Model):
-    nombre = models.CharField(max_length=40, verbose_name='Nombre Documento', unique=True)
-
-    def __str__(self):
-        return '{0}'.format(self.nombre)
-
-    def toJSON(self):
-        item = model_to_dict(self)
-        return item
-
-
-class Registros(models.Model):
-    seccion = models.ForeignKey(
-        Secciones, on_delete=models.CASCADE)
-    documento = models.ForeignKey(
-        Documentos, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return '{0} {1}'.format(self.seccion, self.documento)
-
-    def toJSON(self):
-        item = model_to_dict(self)
-        item['seccion'] = self.seccion.toJSON()
-        item['documento'] = self.documento.toJSON()
+    def get_id(self):
+        item = format(self.id)
         return item
 
 
@@ -75,6 +61,10 @@ class Expedientes(models.Model):
     def toJSON(self):
         item = model_to_dict(self)
         item['archivo'] = format(self.archivo)
+        return item
+
+    def get_id(self):
+        item = format(self.id)
         return item
 
 

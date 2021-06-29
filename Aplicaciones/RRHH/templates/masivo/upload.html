@@ -1,18 +1,29 @@
 {% extends 'body.html' %}
 
+{% load static %}
+{% block head %}
+    <link href="{% static 'lib/select2-4.0.13/css/select2.min.css' %}" rel="stylesheet"/>
+    <link href="{% static 'lib/select2-4.0.13/css/select2-bootstrap4.min.css' %}" rel="stylesheet"/>
+    <script src="{% static 'lib/select2-4.0.13/js/select2.min.js' %}"></script>
+    <script src="{% static 'lib/select2-4.0.13/js/i18n/es.js' %}"></script>
+{% endblock %}
+
+
+
 {% block content %}
 
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <input type="hidden" name="action" value="{{ action }}">
 
         <div class="card card-default">
             <div class="card-header">
                 <h3 class="card-title">
-                    {% if title == 'expedientes' %}
-                        <P>Ingreso masivo de expedientes</P>
-                    {% elif title == 'actualizacion' %}
-                        <P>Actualizacion Masiva</P>
+                    {% if action == 'expedientes' %}
+                        {{ title }}
+                        <input type="hidden" name="action" value="{{ action }}">
+                    {% elif action == 'actualizacion' %}
+                        {{ title }}
+                        <input type="hidden" name="action" value="{{ action }}">
                     {% endif %}
                 </h3>
             </div>
@@ -23,6 +34,12 @@
                     <input type="file" class="form-control" name="xlsfile">
                     <label>Seleccionar archivos {{ form.label }}</label>
                     {{ form }}
+                    {% if action == 'actualizacion' %}
+                        <label>Seccion: </label>
+                        {{ mForm.Secciones }}
+                        <label>Documento: </label>
+                        {{ mForm.Documentos }}
+                    {% endif %}
                 </div>
             </div>
             <!-- /.card-body -->
@@ -35,4 +52,49 @@
 
     </form>
 
+    <script>
+        var select_documento = $('select[name="Documentos"]');
+        $(function () {
+
+            $('.select2').select2({
+                theme: "bootstrap4",
+                language: 'es'
+            });
+
+            $('select[name="Secciones"]').on('change', function () {
+                var id = $(this).val();
+                var options = '<option value="">----------</option>';
+                if (id === '') {
+                    select_documento.html(options);
+                    return false;
+                }
+                $.ajax({
+                    url: window.location.pathname,
+                    type: 'POST',
+                    data: {
+                        'action': 'search_section_id',
+                        'id': id
+                    },
+                    dataType: 'json',
+                }).done(function (data) {
+                    if (!data.hasOwnProperty('error')) {
+                        select_documento.html('').select2({
+                            theme: "bootstrap4",
+                            language: 'es',
+                            data: data
+                        });
+                        return false;
+                    }
+                    message_error(data.error);
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert(textStatus + ': ' + errorThrown);
+                }).always(function (data) {
+                    //select_products.html(options);
+                });
+            });
+        });
+    </script>
+
+
 {% endblock %}
+

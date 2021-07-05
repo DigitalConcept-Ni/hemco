@@ -2,7 +2,8 @@ from django.urls import path
 
 from Aplicaciones.RRHH.views.masivo.view import ExpedientesMasivo, ActualizacionMasiva
 from Aplicaciones.RRHH.views.quey.view import Queryview
-from Aplicaciones.RRHH.views.secciones.view import secciones_list
+from Aplicaciones.RRHH.views.reporte.view import ReportExpedienteView, ReportMasivoView
+from Aplicaciones.RRHH.views.secciones.view import secciones_list, SeccionesCreateview
 from Aplicaciones.RRHH.views.documentos.view import *
 from Aplicaciones.RRHH.views.expedientes.view import *
 from Aplicaciones.RRHH.views.indexado.view import *
@@ -14,6 +15,7 @@ app_name = 'RRHH'
 urlpatterns = [
     # urls Secciones
     path('secciones/list/', secciones_list, name='section_list'),
+    path('secciones/add/', SeccionesCreateview.as_view(), name='section_add'),
     # urls Documentos
     path('documentos/list/', DocumentoListView.as_view(), name='documento_list'),
     path('documentos/add/', DocumentoCreateView.as_view(), name='documento_add'),
@@ -35,7 +37,11 @@ urlpatterns = [
     # path('masivo/', importar.as_view(), name = 'masivo_add'),
 
     # QUERY
-    path('query/', Queryview.as_view(), name = 'add_query'),
+    # path('query/', Queryview.as_view(), name = 'add_query'),
+
+    # Reporte
+    path('reporte/expediente/', ReportExpedienteView.as_view(), name = 'add_report'),
+    path('reporte/documento/', ReportMasivoView.as_view(), name = 'add_report_masivo'),
 
 
 ]

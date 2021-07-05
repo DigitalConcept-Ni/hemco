@@ -1,0 +1,209 @@
+{% extends 'body.html' %}
+{% load static %}
+
+{% block head %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.5/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css'  %}">
+{% endblock %}
+
+{% block content %}
+
+    {% if action == 'Expediente' %}
+        <div class="card card-outline card-success ">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-search"></i>
+                    {{ title }}
+                </h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <div class="form-group">
+                    <label> Seleccione expediente: </label>
+                    {{ form.Cedula }}
+                </div>
+            </div>
+            <!-- /.card-body -->
+
+            <div class="card-footer">
+                <button type="button" id="btn_reporte" class="btn btn-success">
+                    <i class="fas fa-flag"></i> Generar
+                </button>
+            </div>
+        </div>
+
+        <!-- Documentos faltantes -->
+        <div class="card card-outline card-success" style="display: none" id="doc_faltante">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-bookmark"></i>
+                    {{ title }}
+                </h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <ul id="prueba" class="list-group"></ul>
+            </div>
+            <!-- /.card-body -->
+        </div>
+
+    {% elif action == 'reporte_documento' %}
+        <!-- Espesificaciones del reporte masivo por tipo de documento -->
+        <div class="card card-outline card-success shadow-lg p-3 mb-5 mt-5 bg-body rounded">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-bookmark"></i>
+                    {{ title }}
+                </h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <label>Selecciones el tipo de documento: </label>
+                {{ formDoc.Documento }}
+            </div>
+            <!-- /.card-body -->
+
+            <div class="card-footer">
+                <button type="button" id="btn_reporte_doc" class="btn btn-success">
+                    <i class="fas fa-flag"></i> Generar
+                </button>
+            </div>
+
+            <!-- End footer -->
+        </div>
+
+        <!-- tabla de la seccion de expedientes con documentos faltantes -->
+
+        <div class="card card-outline card-success shadow-lg p-3 mb-5 mt-5 bg-body rounded" style="display:none" id="table_doc_faltante">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-bookmark"></i>
+                    Lista de expediente faltante de:
+                </h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table class="table table-striped" id="tableDocFaltante">
+                    <thead>
+                    <tr>
+                        <th scope="col">Cedula</th>
+                        <th scope="col">Colaborador</th>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+
+    {% endif %}
+{% endblock %}
+
+{% block js %}
+
+    <!-- jquery y bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+            crossorigin="anonymous"></script>
+
+    <!-- datatables con bootstrap -->
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap5.min.js"></script>
+
+    <!-- Para usar los botones -->
+    <script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>
+
+
+    <!-- Para los estilos en Excel     -->
+    <script src="https://cdn.jsdelivr.net/npm/datatables-buttons-excel-styles@1.1.1/js/buttons.html5.styles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/datatables-buttons-excel-styles@1.1.1/js/buttons.html5.styles.templates.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $('#btn_reporte').on('click', function () {
+                var cedula = $('select[name="Cedula"]').val();
+                var ul = $('#prueba');
+                var lista = '<li value="" class="list-group-item list-group-item-success"> Documentos Faltantes:</li>'
+                var faltante = $('#doc_faltante');
+
+                $.ajax({
+                    url: window.location.pathname,
+                    type: 'POST',
+                    data: {
+                        'action': 'query_report',
+                        'cedula': cedula,
+                    },
+                    dataType: 'json'
+                }).done(function (data) {
+                    console.log(data);
+                    $.each(data, function (key, value) {
+                        lista += '<li value="' + value.id + '" class="list-group-item ">' + value.id + ') ' + value.nombre + '</li>'
+                    });
+                }).fail(function (data) {
+                    alert('la cagastes');
+                }).always(function (data) {
+                    ul.html(lista);
+                    faltante.show()
+                })
+            });
+
+            $('#btn_reporte_doc').on('click', function () {
+                var documento = $('select[name="Documento"]').val();
+
+                $("#tableDocFaltante").dataTable().fnDestroy();
+
+                $('#tableDocFaltante').DataTable({
+                    dom: 'Bfrtip',
+                    buttons: {
+                        dom: {
+                            button: {
+                                className: 'btn'
+                            }
+                        },
+                        buttons: [
+                            {
+                                extend: "excel",
+                                text: 'Exportar a Excel',
+                                className: 'btn btn-outline-success'
+                            }
+                        ]
+                    },
+                    ajax: {
+                        url: window.location.pathname,
+                        type: 'POST',
+                        data: {
+                            'action': 'report_doc_masivo',
+                            'documento': documento,
+                        },
+                        dataSrc: ""
+                    },
+                    columns: [
+                        {"data": "id"},
+                        {"data": "nombre"},
+                    ],
+                    columnDefs: [
+                        {
+                            targets: [-1],
+                            //class: 'text-center',
+                        },
+                    ],
+                    initComplete: function (settings, json) {
+
+                    }
+                });
+
+                $('#table_doc_faltante').show();
+            })
+
+        });
+
+    </script>
+{% endblock %}

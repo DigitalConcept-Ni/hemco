@@ -1,0 +1,171 @@
+{% extends 'list.html' %}
+
+
+{% block content %}
+
+    {% if action == 'Expediente' %}
+        <div class="card card-outline card-success ">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-search"></i>
+                    {{ title }}
+                </h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <div class="form-group">
+                    <label> Seleccione expediente: </label>
+                    {{ form.Cedula }}
+                </div>
+            </div>
+            <!-- /.card-body -->
+
+            <div class="card-footer">
+                <button type="button" id="btn_reporte" class="btn btn-success">
+                    <i class="fas fa-flag"></i> Generar
+                </button>
+            </div>
+        </div>
+
+        <!-- Documentos faltantes -->
+        <div class="card card-outline card-success" style="display: none" id="doc_faltante">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-bookmark"></i>
+                    {{ title }}
+                </h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <ul id="prueba" class="list-group"></ul>
+            </div>
+            <!-- /.card-body -->
+        </div>
+
+    {% elif action == 'reporte_documento' %}
+        <!-- Espesificaciones del reporte masivo por tipo de documento -->
+        <div class="card card-outline card-success">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-bookmark"></i>
+                    {{ title }}
+                </h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <label>Selecciones el tipo de documento: </label>
+                {{ formDoc.Documento }}
+            </div>
+            <!-- /.card-body -->
+
+            <div class="card-footer">
+                <button type="button" id="btn_reporte_doc" class="btn btn-success">
+                    <i class="fas fa-flag"></i> Generar
+                </button>
+            </div>
+
+            <!-- End footer -->
+        </div>
+
+        <!-- tabla de la seccion de expedientes con documentos faltantes -->
+
+        <div class="card card-outline card-success" style="display:none" id="table_doc_faltante">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-bookmark"></i>
+                    Lista de expediente faltante de:
+                </h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table class="table  table-bordered" id="tableDocFaltante">
+                    <thead>
+                    <tr>
+                        <th scope="col">Colaborador</th>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+
+
+    {% endif %}
+
+
+{% endblock %}
+
+{% block js %}
+    <script>
+        $(document).ready(function () {
+
+            $('#btn_reporte').on('click', function () {
+                var cedula = $('select[name="Cedula"]').val();
+                var ul = $('#prueba');
+                var lista = '<li value="" class="list-group-item list-group-item-success"> Documentos Faltantes:</li>'
+                var faltante = $('#doc_faltante');
+
+                $.ajax({
+                    url: window.location.pathname,
+                    type: 'POST',
+                    data: {
+                        'action': 'query_report',
+                        'cedula': cedula,
+                    },
+                    dataType: 'json'
+                }).done(function (data) {
+                    console.log(data);
+                    $.each(data, function (key, value) {
+                        lista += '<li value="' + value.id + '" class="list-group-item ">' + value.id + ') ' + value.nombre + '</li>'
+                    });
+                }).fail(function (data) {
+                    alert('la cagastes');
+                }).always(function (data) {
+                    ul.html(lista);
+                    faltante.show()
+                })
+            });
+
+            $('#btn_reporte_doc').on('click', function () {
+                var documento = $('select[name="Documento"]').val();
+                console.log(documento)
+
+                $('#tableDocFaltante').DataTable({
+                    responsive: true,
+                    autoWidth: false,
+                    destroy: true,
+                    deferRender: true,
+                    //data: data.det,+
+                    ajax: {
+                        url: window.location.pathname,
+                        type: 'POST',
+                        data: {
+                            'action': 'report_doc_masivo',
+                            'documento': documento,
+                        },
+                        dataSrc: ""
+                    },
+                    columns: [
+                        {"data": "id"},
+                    ],
+                    columnDefs: [
+                        {
+                            targets: [-1],
+                            //class: 'text-center',
+                        },
+                    ],
+                    initComplete: function (settings, json) {
+
+                    }
+                });
+
+                $('#table_doc_faltante').show();
+            })
+
+        });
+
+    </script>
+
+{% endblock %}

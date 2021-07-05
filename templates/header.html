@@ -16,102 +16,129 @@
         <div class="collapse navbar-collapse order-3" id="navbarCollapse">
             <!-- Left navbar links -->
             <ul class="navbar-nav">
+                <!-- star block validation of sueper user -->
                 <li class="nav-item">
                     <a href="{% url 'dashboard' %}" class="nav-link">Home</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                       class="nav-link dropdown-toggle">Mantenimientos</a>
-                    <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow"
-                        style="left: 0px; right: inherit;">
-                        <!-- Level two dropdown Secciones-->
-                        <li class="dropdown-submenu dropdown-hover">
-                            <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
-                               aria-expanded="false" class="dropdown-item dropdown-toggle">Secciones</a>
-                            <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow" style="">
-                                <li>
-                                    <a tabindex="-1" href="{% url 'RRHH:section_list' %}" class="dropdown-item">
-                                        <i class="fas fa-list-alt"></i> Listado
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="dropdown-item"><i class="fas fa-plus"></i> Agregar</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <!-- End Level two Secciones-->
-
-                        <!-- Level two dropdown Documentos-->
-                        <li class="dropdown-submenu dropdown-hover">
-                            <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
-                               aria-expanded="false" class="dropdown-item dropdown-toggle">Documentos</a>
-                            <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow" style="">
-                                <li>
-                                    <a tabindex="-1" href="{% url 'RRHH:documento_list' %}" class="dropdown-item">
-                                        <i class="fas fa-list-alt"></i> Listado
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{% url 'RRHH:documento_add' %}" class="dropdown-item"><i
-                                            class="fas fa-plus"></i> Agregar</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <!-- End Level two Documentos-->
-
-                        <!-- Level two dropdown Expedidentes-->
-                        <li class="dropdown-submenu dropdown-hover">
-                            <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
-                               aria-expanded="false" class="dropdown-item dropdown-toggle">Expedientes</a>
-                            <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow" style="">
-                                <li>
-                                    <a tabindex="-1" href="{% url 'RRHH:expediente_list' %}" class="dropdown-item">
-                                        <i class="fas fa-list-alt"></i> Listado
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="dropdown-item"><i class="fas fa-plus"></i> Agregar</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <!-- End Level two Expedientes-->
-
-                        <!-- Level two dropdown Indexado-->
-                        <li class="dropdown-submenu dropdown-hover">
-                            <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
-                               aria-expanded="false" class="dropdown-item dropdown-toggle">Indexado</a>
-                            <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow" style="">
-                                <li>
-                                    <a tabindex="-1" href="{% url 'RRHH:index_list' %}" class="dropdown-item">
-                                        <i class="fas fa-list-alt"></i> Listado
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="dropdown-item"><i class="fas fa-plus"></i> Agregar</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <!-- End Level two Indexado-->
-                    </ul>
-                </li>
+                {% if request.user.is_superuser %}
 
 
-                <!-- Item Importaciones masivas-->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false">
-                        Importacion Masiva
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="{% url 'RRHH:expedientes_masivo' %}">Expedientes</a>
-                        <a class="dropdown-item" href="{% url 'RRHH:actualizacion_masivo' %}">Actualizacion</a>
-                    </div>
+                    <!-- Level of the Mantimiento -->
+                    <li class="nav-item dropdown">
+                        <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false"
+                           class="nav-link dropdown-toggle">Mantenimientos</a>
+                        <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow"
+                            style="left: 0px; right: inherit;">
+                            <!-- Level two dropdown Secciones-->
+                            <li class="dropdown-submenu dropdown-hover">
+                                <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown"
+                                   aria-haspopup="true"
+                                   aria-expanded="false" class="dropdown-item dropdown-toggle">Secciones</a>
+                                <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow" style="">
+                                    <li>
+                                        <a tabindex="-1" href="{% url 'RRHH:section_list' %}" class="dropdown-item">
+                                            <i class="fas fa-list-alt"></i> Listado
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'RRHH:section_add' %}" class="dropdown-item"><i
+                                                class="fas fa-plus"></i> Agregar</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- End Level two Secciones-->
 
+                            <!-- Level two dropdown Documentos-->
+                            <li class="dropdown-submenu dropdown-hover">
+                                <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown"
+                                   aria-haspopup="true"
+                                   aria-expanded="false" class="dropdown-item dropdown-toggle">Documentos</a>
+                                <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow" style="">
+                                    <li>
+                                        <a tabindex="-1" href="{% url 'RRHH:documento_list' %}" class="dropdown-item">
+                                            <i class="fas fa-list-alt"></i> Listado
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'RRHH:documento_add' %}" class="dropdown-item"><i
+                                                class="fas fa-plus"></i> Agregar</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- End Level two Documentos-->
+
+                            <!-- Level two dropdown Expedidentes-->
+                            <li class="dropdown-submenu dropdown-hover">
+                                <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown"
+                                   aria-haspopup="true"
+                                   aria-expanded="false" class="dropdown-item dropdown-toggle">Expedientes</a>
+                                <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow" style="">
+                                    <li>
+                                        <a tabindex="-1" href="{% url 'RRHH:expediente_list' %}" class="dropdown-item">
+                                            <i class="fas fa-list-alt"></i> Listado
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="dropdown-item"><i class="fas fa-plus"></i> Agregar</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- End Level two Expedientes-->
+
+                            <!-- Level two dropdown Indexado-->
+                            <li class="dropdown-submenu dropdown-hover">
+                                <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown"
+                                   aria-haspopup="true"
+                                   aria-expanded="false" class="dropdown-item dropdown-toggle">Indexado</a>
+                                <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow" style="">
+                                    <li>
+                                        <a tabindex="-1" href="{% url 'RRHH:index_list' %}" class="dropdown-item">
+                                            <i class="fas fa-list-alt"></i> Listado
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="dropdown-item"><i class="fas fa-plus"></i> Agregar</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- End Level two Indexado-->
+                        </ul>
+                    </li>
+
+                    <!-- Item Importaciones masivas-->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">
+                            Importacion Masiva
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="{% url 'RRHH:expedientes_masivo' %}">Expedientes</a>
+                            <a class="dropdown-item" href="{% url 'RRHH:actualizacion_masivo' %}">Actualizacion</a>
+                        </div>
+                    </li>
+
+                    <!-- block reports -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">
+                            Reportes
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="{% url 'RRHH:add_report' %}">Expediente</a>
+                            <a class="dropdown-item" href="{% url 'RRHH:add_report_masivo' %}">Documento faltante</a>
+                        </div>
+                    </li>
+                {% endif %}
+
+                <!-- Block Query -->
                 <li class="nav-item">
-                    <a href="{% url 'RRHH:add_query' %}" class="nav-link">Consultas</a>
+                    <a href="{% url 'query:add_query' %}" class="nav-link">Consulta</a>
                 </li>
             </ul>
         </div>
+
+        <!-- end block or validation for super user -->
 
         <!-- Right navbar links -->
         <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
@@ -124,14 +151,14 @@
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#">
-                    <i class="fas fa-user-edit"></i> {{ request.user }}
+                    <i class="fas fa-user-edit"></i> {{ request.user.username }}
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    <span class="dropdown-header">Option user</span>
+                    <span class="dropdown-header">Ultimo inicio: {{ request.user.last_login }}</span>
                     <div class="dropdown-divider"></div>
                     <a href="#" class="dropdown-item">
                         <i class="fas fa-user-cog"></i> Editar Perfil
-                        <span class="float-right text-muted text-sm">3 mins</span>
+                        <span class="float-right text-muted text-sm"></span>
                     </a>
                     <div class="dropdown-divider"></div>
                     <a href="#" class="dropdown-item">

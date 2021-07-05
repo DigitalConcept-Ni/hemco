@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import FormView
+from django.views.generic import FormView, TemplateView
 from tablib import Dataset
 
 from Aplicaciones.RRHH.forms import FileFieldForm, MasivoForm

@@ -1,49 +1,37 @@
-{% extends 'body.html' %}
+{% extends 'list.html' %}
 
 {% load static %}
 
-{% block head %}
-    <link rel="stylesheet" href="{% static 'lib/datatables-1.10.20/css/dataTables.bootstrap4.min.css' %}"/>
-    <link rel="stylesheet"
-          href="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/css/responsive.bootstrap4.min.css' %}"/>
-    <script src="{% static 'lib/datatables-1.10.20/js/jquery.dataTables.js' %}"></script>
-    <script src="{% static 'lib/datatables-1.10.20/js/dataTables.bootstrap4.min.js' %}"></script>
-    <script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/dataTables.responsive.min.js' %}"></script>
-    <script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/responsive.bootstrap4.min.js' %}"></script>
-
-{% endblock %}
-
 {% block content %}
 
-    <form method="post">
+    {% csrf_token %}
 
-        <div class="card card-default">
-            <div class="card-header">
-                <h3 class="card-title">
-                    <P><i class="fab fa-slack"></i> {{ title }}</P>
-                </h3>
-            </div>
-            <!-- /.card-header -->
-            <div class="card-body">
-                {% for field in form.visible_fields %}
-                    <div class="form-group">
-                        <label>{{ field.label }}: </label>
-                        {{ field }}
-                    </div>
-                {% endfor %}
-            </div>
-            <!-- /.card-body -->
-
-            <div class="card-footer">
-                <button type="submit" class="btn btn-success"><i class="fas fa-folder-open"></i>
-                    Consultar
-                </button>
-                <a href="{{ list_url }}" class="btn btn-danger"><i class="fas fa-ban"></i> Cancelar</a>
-            </div>
+    <div class="card card-outline card-success">
+        <div class="card-header">
+            <h3 class="card-title">
+                <i class="fas fa-search"></i>
+                {{ title }}
+            </h3>
         </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            {% for field in form.visible_fields %}
+                <div class="form-group">
+                    <label>{{ field.label }}: </label>
+                    {{ field }}
+                </div>
+            {% endfor %}
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer">
+            <button type="submit" id="btn_query" class="btn btn-success"><i class="fas fa-folder-open"></i>
+                Consultar
+            </button>
+            <a href="{{ list_url }}" class="btn btn-danger"><i class="fas fa-ban"></i> Cancelar</a>
+        </div>
+    </div>
 
-    </form>
-
+    <!-- /.card-body -->
 
 {% endblock %}
 

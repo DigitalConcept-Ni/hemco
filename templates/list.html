@@ -3,8 +3,7 @@
 
 {% block head %}
     <link rel="stylesheet" href="{% static 'lib/datatables-1.10.20/css/dataTables.bootstrap4.min.css' %}"/>
-    <link rel="stylesheet"
-          href="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/css/responsive.bootstrap4.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/css/responsive.bootstrap4.min.css' %}"/>
     <script src="{% static 'lib/datatables-1.10.20/js/jquery.dataTables.js' %}"></script>
     <script src="{% static 'lib/datatables-1.10.20/js/dataTables.bootstrap4.min.js' %}"></script>
     <script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/dataTables.responsive.min.js' %}"></script>
@@ -57,7 +56,7 @@
             })
         })
 
-        $('#btn_registro').on('click', function () {
+        /*$('#btn_registro').on('click', function () {
             $.ajax({
                 url:'{% url 'RRHH:expediente_list' %}',
                 type: 'POST',
@@ -70,7 +69,7 @@
             }).always(function (data){
                 alert("Tarea terminada");
             })
-        });
+        });*/
 
 
     </script>

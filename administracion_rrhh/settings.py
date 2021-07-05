@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'Aplicaciones.RRHH',
     'Aplicaciones.homepage',
     'Aplicaciones.login',
+    'Aplicaciones.query',
+    'Aplicaciones.user',
     # LIBS
     'widget_tweaks',
     'import_export',
@@ -52,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'crum.CurrentRequestUserMiddleware',
 ]
 
 ROOT_URLCONF = 'administracion_rrhh.urls'
@@ -106,7 +109,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -140,3 +142,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = '/media/'
 
 IMPORT_EXPORT_USE_TRANSACTIONS = True
+
+AUTH_USER_MODEL = 'user.User'

@@ -1,16 +1,28 @@
+from crum import get_current_user
 from django.db import models
 from django.forms import model_to_dict
 
+from Aplicaciones.models import BaseModel
 from administracion_rrhh import settings
 
 
-class Secciones(models.Model):
+class Secciones(BaseModel):
     nombre = models.CharField(max_length=12)
     tipo_documento = models.CharField(max_length=30)
 
     def __str__(self):
         nCompleto = self.nombre + ' -- ' + self.tipo_documento
         return nCompleto
+
+    def save(self, *args, **kwargs):
+        user = get_current_user()
+        if user is not None:
+            if not self.pk:
+                self.user_creation = user
+            else:
+                self.user_updated = user
+        super(Secciones, self).save(*args, **kwargs)
+
 
     def toJSON(self):
         item = model_to_dict(self)
@@ -56,15 +68,24 @@ class Expedientes(models.Model):
 
     def __str__(self):
         nombre_completo = self.primer_nombre + ' ' + self.segundo_nombre + ' ' + self.apellido_paterno + ' ' + self.apellido_materno
-        return '{}'.format(nombre_completo)
+        return '{} -- {}'.format(self.cedula, nombre_completo)
 
     def toJSON(self):
         item = model_to_dict(self)
         item['archivo'] = format(self.archivo)
         return item
 
+    def nombre_completo(self):
+        nombre_completo = self.primer_nombre + ' ' + self.segundo_nombre + ' ' + self.apellido_paterno + ' ' + self.apellido_materno
+        return '{}'.format(nombre_completo)
+
+
     def get_id(self):
         item = format(self.id)
+        return item
+
+    def get_cedula(self):
+        item = format(self.cedula)
         return item
 
 
@@ -80,6 +101,7 @@ class Indexaciones(models.Model):
 
     def __str__(self):
         return '{0} {1} {2}'.format(self.cedula, self.seccion, self.documento)
+
 
     def get_fecha(self):
         if self.fecha_documento:
@@ -98,3 +120,4 @@ class Indexaciones(models.Model):
         item['documento'] = self.documento.toJSON()
         item['archivo'] = format(self.archivo)
         return item
+

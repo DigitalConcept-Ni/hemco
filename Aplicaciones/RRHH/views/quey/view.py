@@ -10,7 +10,7 @@ from Aplicaciones.RRHH.models import Expedientes, Indexaciones
 
 
 class Queryview(FormView):
-    template_name = 'query/query.html'
+    template_name = 'query.html'
     form_class = query
 
     @method_decorator(csrf_exempt)

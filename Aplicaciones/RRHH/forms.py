@@ -16,6 +16,19 @@ class DocumentosForms(ModelForm):
         }
 
 
+class SeccionesForms(ModelForm):
+    class Meta:
+        model = Secciones
+        fields = 'nombre', 'tipo_documento'
+        widgets = {
+            'nombre': TextInput(
+                attrs={
+                    'autofocus': True
+                })
+        }
+        exclude = ['user_update', 'user_creation']
+
+
 class IndexadoForms(ModelForm):
     class Meta:
         model = Indexaciones
@@ -66,3 +79,8 @@ class MasivoForm(Form):
         attrs={'class': 'form-control select2'}))
     Documentos = ModelChoiceField(queryset=Documentos.objects.none(), widget=Select(
         attrs={'class': 'form-control select2'}))
+
+
+class DocForm(Form):
+    Documento = ModelChoiceField(queryset=Documentos.objects.all(), widget=Select(
+        attrs={'class': 'form-control'}))

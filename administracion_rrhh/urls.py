@@ -30,6 +30,7 @@ urlpatterns = [
     path('panelcentral/', include('Aplicaciones.RRHH.urls')),
     path('login/', include('Aplicaciones.login.urls')),
     path('Dashboard/', dash, name='dashboard'),
+    path('query/', include('Aplicaciones.query.urls')),
 ]
 
 if settings.DEBUG:

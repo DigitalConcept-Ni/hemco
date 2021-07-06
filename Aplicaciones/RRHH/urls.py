@@ -1,21 +1,20 @@
 from django.urls import path
 
 from Aplicaciones.RRHH.views.masivo.view import ExpedientesMasivo, ActualizacionMasiva
-from Aplicaciones.RRHH.views.quey.view import Queryview
 from Aplicaciones.RRHH.views.reporte.view import ReportExpedienteView, ReportMasivoView
-from Aplicaciones.RRHH.views.secciones.view import secciones_list, SeccionesCreateview
+from Aplicaciones.RRHH.views.secciones.view import *
 from Aplicaciones.RRHH.views.documentos.view import *
 from Aplicaciones.RRHH.views.expedientes.view import *
 from Aplicaciones.RRHH.views.indexado.view import *
 
 app_name = 'RRHH'
 
-
-
 urlpatterns = [
     # urls Secciones
     path('secciones/list/', secciones_list, name='section_list'),
     path('secciones/add/', SeccionesCreateview.as_view(), name='section_add'),
+    path('secciones/update/<int:pk>/', SeccionesUpdateiew.as_view(), name='section_update'),
+    path('secciones/delete/<int:pk>/', SeccionesDeleteview.as_view(), name='section_delete'),
     # urls Documentos
     path('documentos/list/', DocumentoListView.as_view(), name='documento_list'),
     path('documentos/add/', DocumentoCreateView.as_view(), name='documento_add'),

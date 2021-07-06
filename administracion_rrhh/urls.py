@@ -31,6 +31,7 @@ urlpatterns = [
     path('login/', include('Aplicaciones.login.urls')),
     path('Dashboard/', dash, name='dashboard'),
     path('query/', include('Aplicaciones.query.urls')),
+    path('user/', include('Aplicaciones.user.urls')),
 ]
 
 if settings.DEBUG:

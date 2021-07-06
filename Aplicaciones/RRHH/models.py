@@ -7,7 +7,7 @@ from administracion_rrhh import settings
 
 
 class Secciones(BaseModel):
-    nombre = models.CharField(max_length=12)
+    nombre = models.CharField(max_length=12, unique=True)
     tipo_documento = models.CharField(max_length=30)
 
     def __str__(self):
@@ -120,4 +120,3 @@ class Indexaciones(models.Model):
         item['documento'] = self.documento.toJSON()
         item['archivo'] = format(self.archivo)
         return item
-

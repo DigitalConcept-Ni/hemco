@@ -15,12 +15,18 @@
         </div>
         <!-- /.card-header -->
         <div class="card-body">
-            {% for field in form.visible_fields %}
+            <div class="form-group">
+                <label>{{ form.Cedula.label }}: </label>
+                {{ form.Cedula }}
+            </div>
+            {% if request.user.is_superuser %}
                 <div class="form-group">
-                    <label>{{ field.label }}: </label>
-                    {{ field }}
+                    <label>{{ form.Secciones.label }}: </label>
+                    {{ form.Secciones }}
                 </div>
-            {% endfor %}
+            {% endif %}
+
+
         </div>
         <!-- /.card-body -->
         <div class="card-footer">

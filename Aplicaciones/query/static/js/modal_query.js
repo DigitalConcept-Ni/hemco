@@ -1,23 +1,5 @@
 // Funcion para mostrar el model informativo de la tabla consulta expediente
 
-$('#btn_prueba').on('click', function () {
-
-    $.ajax({
-        url: window.location.pathname,
-        type: 'POST',
-        data: {'id': 20},
-        dataType: 'json'
-    }).done(function (data) {
-        console.log(data);
-        $('#modalInfo').modal('show');
-
-    }).fail(function (data) {
-        alert('la cagastes');
-    }).always(function (data) {
-        alert("Tarea terminada");
-    })
-});
-
 $(function () {
     $('#btn_query').on('click', function (e) {
         var cedula = $('select[name="Cedula"]').val()

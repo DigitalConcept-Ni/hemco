@@ -8,6 +8,7 @@
 
                     {% if action == 'add' %}
                         <i class="fas fa-plus"></i>
+
                     {% elif action == 'edit' %}
                         <i class="fas fa-edit"></i>
                     {% endif %}
@@ -17,7 +18,7 @@
             <!-- /.card-header -->
             <div class="card-body">
                 {% csrf_token %}
-
+                <input type="hidden" name="action" value="{{ action }}">
                 {% if form.errors %}
                     <div class="alert alert-success alert-dismissible">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -56,4 +57,19 @@
         </div>
     </form>
 
+    <script>
+        $(function () {
+            $('form').on('submit', function (e) {
+                e.preventDefault();
+                //var parameters = $(this).serializeArray();
+                var parameters = new FormData(this);
+
+                submit_with_ajax(window.location.pathname, 'Notificación', '¿Estas seguro de realizar la siguiente acción?', parameters, function () {
+                    location.href = '{{ list_url }}';
+                });
+            });
+        });
+
+
+    </script>
 {% endblock %}

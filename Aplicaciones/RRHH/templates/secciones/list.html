@@ -17,8 +17,8 @@
             <td>{{ s.nombre }}</td>
             <td>{{ s.tipo_documento }}</td>
             <td>
-                <button type="button" class="btn btn-primary"><i class="fas fa-edit"></i></button>
-                <button type="button" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                <a href="{% url 'RRHH:section_update' s.id %}" type="button" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                <a href="{% url 'RRHH:section_delete' s.id %}" type="button" class="btn btn-danger"><i class="fas fa-trash"></i></a>
             </td>
         </tr>
 

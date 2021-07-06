@@ -28,9 +28,6 @@ class Indexlistview(ListView):
         context['list_url'] = reverse_lazy('RRHH:index_list')
         return context
 
-
-
-
 class IndexCreateview(CreateView):
     model = Indexaciones
     form_class = IndexadoForms
@@ -41,16 +38,29 @@ class IndexCreateview(CreateView):
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'add':
+                form = self.get_form()
+                if form.is_valid():
+                    form.save()
+                else:
+                    data['error'] = form.errors
+            else:
+                data['error'] = 'No ha ingresado ninguna opcion'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Completar Expediente'
-        context['entity'] = 'Indexado'
-        context['list_url'] = reverse_lazy('RRHH:index_list')
+        context['title'] = 'Actualizar expediente'
+        context['entity'] = 'Indexaciones'
+        context['list_url'] = self.success_url
         context['action'] = 'add'
         return context
-
-
-
 
 class IndexUpdateview(UpdateView):
     model = Indexaciones
@@ -60,13 +70,30 @@ class IndexUpdateview(UpdateView):
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
         return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'edit':
+                form = self.get_form()
+                if form.is_valid():
+                    form.save()
+                else:
+                    data['error'] = form.errors
+            else:
+                data['error'] = 'No ha ingresado ninguna opcion'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Modificar Contenido'
-        context['entity'] = 'Indexado'
-        context['list_url'] = reverse_lazy('RRHH:index_list')
+        context['title'] = 'Modificar Indexacion'
+        context['entity'] = 'Indexaciones'
+        context['list_url'] = self.success_url
         context['action'] = 'edit'
         return context
 
@@ -78,11 +105,21 @@ class IndexDeleteview(DeleteView):
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
+        self.object =self.get_object()
         return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            self.object.delete()
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Eliminacion de Expediente General'
-        context['entity'] = 'Indexado'
-        context['list_url'] = reverse_lazy('RRHH:index_list')
+        context['title'] = 'Eliminar Indexacion'
+        context['entity'] = 'indexaciones'
+        context['list_url'] = self.success_url
+        context['action'] = 'delete'
         return context

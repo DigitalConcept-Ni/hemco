@@ -24,7 +24,7 @@
 
 
                     <!-- Level of the Mantimiento -->
-                    <li class="nav-item dropdown">
+                    <li class="nav-item dropdown bg-teal">
                         <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true"
                            aria-expanded="false"
                            class="nav-link dropdown-toggle">Mantenimientos</a>
@@ -103,6 +103,13 @@
                                 </ul>
                             </li>
                             <!-- End Level two Indexado-->
+
+                            <!-- Star block USERS -->
+                            <div class="dropdown-divider"></div>
+
+                                <a class="dropdown-item" href="{% url 'user:user_list' %}">Usuarios</a>
+
+                            <!-- End blick USERS -->
                         </ul>
                     </li>
 
@@ -156,10 +163,6 @@
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                     <span class="dropdown-header">Ultimo inicio: {{ request.user.last_login }}</span>
                     <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">
-                        <i class="fas fa-user-cog"></i> Editar Perfil
-                        <span class="float-right text-muted text-sm"></span>
-                    </a>
                     <div class="dropdown-divider"></div>
                     <a href="#" class="dropdown-item">
                         <i class="fas fa-lock"></i> Cambiar Contrase&ntilde;a
